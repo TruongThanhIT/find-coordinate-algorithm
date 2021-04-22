@@ -2,7 +2,7 @@
 Given 3 points with the coordinate (x , y), write an efficient solution in Kotlin to find the fourth point’s coordinate so that 4 points will make a rectangle. 
 
 # Solutions 
-- Step 1: Prove 3 coordinates is a part of a right triangle
+- Step 1: Prove three coordinates are a part of a right triangle
 - Step 2: Find root square 
 - Step 3: Find the midpoint hypotenuse 
 - Step 4: Find the fourth coordinate
