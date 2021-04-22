@@ -60,3 +60,51 @@ fun isRightTriangle(
 ): Boolean = ((firstAngle + secondAngle) == hypotenuse)
 
 ```
+# Using Functional programming
+
+```
+fun main() {
+    val points =
+        arrayOf(intArrayOf(1, 4), intArrayOf(3, 4), intArrayOf(3, 10)) // Expected > [1, 10]
+    println("${solution(points).contentToString()}")
+}
+
+
+val distance = { a: IntArray, b: IntArray ->
+    (a[0] - b[0]).toDouble().pow(2) + (a[1] - b[1]).toDouble().pow(2)
+}
+
+fun solution(input: Array<IntArray>): IntArray {
+    val a = input[0]
+    val b = input[1]
+    val c = input[2]
+
+    val ab = distance(a, b)
+    val ac = distance(a, c)
+    val bc = distance(b, c)
+
+    return when {
+        // bc is hypotenuse -> a is squareRoot
+        bc isRightTriangle (ab to ac) -> finalPoint(b, c)(a)
+
+        //  ac is hypotenuse -> b is squareRoot
+        ac isRightTriangle (ab to bc) -> finalPoint(a, c)(b)
+
+        //  ab is hypotenuse -> c is squareRoot
+        else -> finalPoint(a, b)(c)
+    }
+}
+
+val mid: (Int, Int) -> Int = { a, b -> (a + b) / 2 }
+val final: (Int, Int) -> (Int) -> Int = { a, b -> { s -> (mid(a, b) * 2) - s } }
+val finalPoint: (IntArray, IntArray) -> (IntArray) -> IntArray =
+    { firstCoordinates, secondCoordinates ->
+        { squareRoot ->
+            val xFinal = final(firstCoordinates[0], secondCoordinates[0])(squareRoot[0])
+            val yFinal = final(firstCoordinates[1], secondCoordinates[1])(squareRoot[1])
+            intArrayOf(xFinal, yFinal)
+        }
+    }
+
+infix fun Double.isRightTriangle(angle: Pair<Double, Double>) = this == (angle.first + angle.second)
+```
